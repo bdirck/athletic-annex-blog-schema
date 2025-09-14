@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Athletic Annex Blog Schema",
+  "type": "object",
+  "properties": {
+    "basic_content_info": {
+      "type": "object",
+      "properties": {
+        "blog_title": { "type": "string" },
+        "slug": { "type": "string" },
+        "live_link": { "type": "string" },
+        "author": { "type": "string" },
+        "category": { "type": "string" }
+      },
+      "required": ["blog_title", "slug"]
+    },
+    "seo_core": {
+      "type": "object",
+      "properties": {
+        "primary_keyword": { "type": "string" },
+        "secondary_keywords": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "search_intent": { "type": "string" },
+        "meta_title": { "type": "string" },
+        "meta_description": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "snippet_block": { "type": "string" },
+        "h1": { "type": "string" }
+      },
+      "required": ["primary_keyword", "meta_title", "meta_description"]
+    },
+    "content_enhancers": {
+      "type": "object",
+      "properties": {
+        "toc_present": { "type": "boolean" },
+        "faq_section": { "type": "boolean" },
+        "faq_list": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "q": { "type": "string" },
+              "a": { "type": "string" }
+            },
+            "required": ["q", "a"]
+          }
+        },
+        "comparison_table": { "type": "boolean" },
+        "comparison_table_md": { "type": "string" },
+        "list_steps_included": { "type": "boolean" },
+        "images_graphics_added": { "type": "boolean" },
+        "image_suggestions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "filename": { "type": "string" },
+              "alt": { "type": "string" },
+              "where": { "type": "string" }
+            },
+            "required": ["filename", "alt"]
+          }
+        },
+        "schema_types": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "internal_linking": {
+      "type": "object",
+      "properties": {
+        "links_to": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "anchor": { "type": "string" },
+              "url": { "type": "string" }
+            },
+            "required": ["anchor", "url"]
+          }
+        },
+        "links_from_suggested": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "url": { "type": "string" }
+            },
+            "required": ["title", "url"]
+          }
+        },
+        "anchor_text_variations": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "local_entities": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "publishing_workflow": {
+      "type": "object",
+      "properties": {
+        "status": { "type": "string" },
+        "brief_doc_link": { "type": "string" },
+        "draft_doc_link": { "type": "string" },
+        "designer_formatter": { "type": "string" },
+        "publish_date": { "type": "string" },
+        "last_updated_date": { "type": "string" }
+      }
+    },
+    "performance_tracking": {
+      "type": "object",
+      "properties": {
+        "organic_impressions": { "type": "string" },
+        "organic_clicks": { "type": "string" },
+        "avg_position": { "type": "string" },
+        "ctr_percent": { "type": "string" },
+        "page_views": { "type": "string" },
+        "conversions": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    },
+    "blog_body": { "type": "string" }
+  },
+  "required": ["basic_content_info", "seo_core", "blog_body"]
+}
