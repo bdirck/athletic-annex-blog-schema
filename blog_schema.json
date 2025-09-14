@@ -127,7 +127,10 @@
         "notes": { "type": "string" }
       }
     },
-    "blog_body": { "type": "string" }
+    "blog_body": {
+        "type": "string",
+        "description": "The full blog draft in Markdown format (2,800–3,200 words). Include all H1/H2/H3 headings, body text, tables, lists, FAQ, CTA, and localized content."
+}
   },
   "required": ["basic_content_info", "seo_core", "blog_body"]
 }
