@@ -127,10 +127,43 @@
         "notes": { "type": "string" }
       }
     },
+
+    "cta": {
+      "type": "array",
+      "description": "One or more call-to-action blocks to render in the post and store in Airtable.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "placement": {
+            "type": "string",
+            "description": "Where to place this CTA in the article",
+            "enum": ["top", "middle", "bottom", "sidebar", "inline"]
+          },
+          "headline": { "type": "string" },
+          "body": { "type": "string", "description": "Short supporting copy; Markdown allowed" },
+          "button_label": { "type": "string" },
+          "button_url": { "type": "string" },
+          "secondary_button_label": { "type": "string" },
+          "secondary_button_url": { "type": "string" },
+          "anchor_text": { "type": "string", "description": "If linking inline within a paragraph" },
+          "internal_link_target": { "type": "string", "description": "Slug or URL of the internal target, if applicable" },
+          "utm": {
+            "type": "object",
+            "properties": {
+              "source": { "type": "string" },
+              "medium": { "type": "string" },
+              "campaign": { "type": "string" }
+            }
+          }
+        },
+        "required": ["placement", "headline", "button_label", "button_url"]
+      }
+    },
+
     "blog_body": {
-        "type": "string",
-        "description": "The full blog draft in Markdown format (2,800–3,200 words). Include all H1/H2/H3 headings, body text, tables, lists, FAQ, CTA, and localized content."
-}
+      "type": "string",
+      "description": "The full blog draft in Markdown format (2,800–3,200 words). Include all H1/H2/H3 headings, body text, tables, lists, FAQ, CTA callouts, and localized content."
+    }
   },
   "required": ["basic_content_info", "seo_core", "blog_body"]
 }
