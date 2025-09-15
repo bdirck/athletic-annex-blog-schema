@@ -22,14 +22,27 @@
           "type": "array",
           "items": { "type": "string" }
         },
-        "search_intent": { "type": "string" },
+        "search_intent": {
+          "type": "string",
+          "enum": [
+            "Informational",
+            "Navigational",
+            "Transactional",
+            "Commercial Investigation"
+          ],
+          "description": "Choose ONE best-fit search intent."
+        },
+        "local_modifier": {
+          "type": "boolean",
+          "description": "True if the post targets a location (e.g., Indianapolis, Carmel, Indiana)."
+        },
         "meta_title": { "type": "string" },
         "meta_description": { "type": "string" },
         "excerpt": { "type": "string" },
         "snippet_block": { "type": "string" },
         "h1": { "type": "string" }
       },
-      "required": ["primary_keyword", "meta_title", "meta_description"]
+      "required": ["primary_keyword", "meta_title", "meta_description", "search_intent"]
     },
     "content_enhancers": {
       "type": "object",
@@ -127,7 +140,6 @@
         "notes": { "type": "string" }
       }
     },
-
     "cta": {
       "type": "array",
       "description": "One or more call-to-action blocks to render in the post and store in Airtable.",
@@ -159,7 +171,6 @@
         "required": ["placement", "headline", "button_label", "button_url"]
       }
     },
-
     "blog_body": {
       "type": "string",
       "description": "The full blog draft in Markdown format (2,800–3,200 words). Include all H1/H2/H3 headings, body text, tables, lists, FAQ, CTA callouts, and localized content."
