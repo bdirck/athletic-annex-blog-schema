@@ -175,25 +175,28 @@
       "type": "string",
       "description": "The full blog draft in Markdown format (2,800–3,200 words). Include all H1/H2/H3 headings, body text, tables, lists, FAQ, CTA callouts, and localized content."
     },
-"category_id": {
-  "type": "string",
-  "description": "One approved category ID (exactly one).",
-  "enum": ["ACC","REC","APP","SAF","COM","NUT","INJ","PER","TRL","TRN","SHO"]
-},
-"tag_ids": {
-  "type": "array",
-  "description": "3–6 approved tag IDs (prefer same-parent first).",
-  "items": {
-    "type": "string",
-    "pattern": "^(ACC|APP|SHO|TRN|COM|REC|INJ|SAF|NUT|TRL|PER)_[A-Z0-9'_-]+$"
+    "category_id": {
+      "type": "string",
+      "description": "One approved category ID (exactly one).",
+      "enum": ["ACC","REC","APP","SAF","COM","NUT","INJ","PER","TRL","TRN","SHO"]
+    },
+    "tag_ids": {
+      "type": "array",
+      "description": "3–6 approved tag IDs (prefer same-parent first).",
+      "items": {
+        "type": "string",
+        "pattern": "^(ACC|APP|SHO|TRN|COM|REC|INJ|SAF|NUT|TRL|PER)_[A-Z0-9'_-]+$"
+      },
+      "uniqueItems": true,
+      "minItems": 3,
+      "maxItems": 6
+    },
+    "new_tag_proposals": {
+      "type": "array",
+      "description": "Optional, human-readable proposals when no existing tag fits. Do NOT invent IDs here.",
+      "items": { "type": "string", "minLength": 2, "maxLength": 80 },
+      "maxItems": 10
+    }
   },
-  "uniqueItems": true,
-  "minItems": 3,
-  "maxItems": 6
-},
-"new_tag_proposals": {
-  "type": "array",
-  "description": "Optional, human-readable proposals when no existing tag fits. Do NOT invent IDs here.",
-  "items": { "type": "string", "minLength": 2, "maxLength": 80 },
-  "maxItems": 10
+  "required": ["basic_content_info", "seo_core", "blog_body", "category_id", "tag_ids"]
 }
