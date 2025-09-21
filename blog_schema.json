@@ -175,8 +175,6 @@
       "type": "string",
       "description": "The full blog draft in Markdown format (2,800–3,200 words). Include all H1/H2/H3 headings, body text, tables, lists, FAQ, CTA callouts, and localized content."
     },
-
-    /* ---------- NEW: taxonomy outputs ---------- */
     "category_id": {
       "type": "string",
       "description": "One approved category ID (exactly one).",
@@ -199,7 +197,6 @@
       "items": { "type": "string", "minLength": 2, "maxLength": 80 },
       "maxItems": 10
     }
-    /* -------- end taxonomy outputs -------- */
   },
   "required": ["basic_content_info", "seo_core", "blog_body", "category_id", "tag_ids"]
 }
