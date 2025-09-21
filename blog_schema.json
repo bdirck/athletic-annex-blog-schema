@@ -1,180 +1,43 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Athletic Annex Blog Schema",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/bdirck/athletic-annex-blog-schema/refs/heads/main/blog_schema_with_taxonomy.json",
+  "title": "Athletic Annex Blog Post (with taxonomy)",
   "type": "object",
-  "properties": {
-    "basic_content_info": {
-      "type": "object",
-      "properties": {
-        "blog_title": { "type": "string" },
-        "slug": { "type": "string" },
-        "live_link": { "type": "string" },
-        "author": { "type": "string" },
-        "category": { "type": "string" }
-      },
-      "required": ["blog_title", "slug"]
+  "allOf": [
+    {
+      "$ref": "https://raw.githubusercontent.com/bdirck/athletic-annex-blog-schema/refs/heads/main/blog_schema.json"
     },
-    "seo_core": {
+    {
       "type": "object",
+      "additionalProperties": true,
       "properties": {
-        "primary_keyword": { "type": "string" },
-        "secondary_keywords": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "search_intent": {
+        "category_id": {
           "type": "string",
-          "enum": [
-            "Informational",
-            "Navigational",
-            "Transactional",
-            "Commercial Investigation"
-          ],
-          "description": "Choose ONE best-fit search intent."
+          "description": "One approved category ID (exactly one).",
+          "enum": ["ACC","REC","APP","SAF","COM","NUT","INJ","PER","TRL","TRN","SHO"],
+          "examples": ["SAF"]
         },
-        "local_modifier": {
-          "type": "boolean",
-          "description": "True if the post targets a location (e.g., Indianapolis, Carmel, Indiana)."
-        },
-        "meta_title": { "type": "string" },
-        "meta_description": { "type": "string" },
-        "excerpt": { "type": "string" },
-        "snippet_block": { "type": "string" },
-        "h1": { "type": "string" }
-      },
-      "required": ["primary_keyword", "meta_title", "meta_description", "search_intent"]
-    },
-    "content_enhancers": {
-      "type": "object",
-      "properties": {
-        "toc_present": { "type": "boolean" },
-        "faq_section": { "type": "boolean" },
-        "faq_list": {
+        "tag_ids": {
           "type": "array",
+          "description": "3–6 approved tag IDs (prefer same-parent first).",
           "items": {
-            "type": "object",
-            "properties": {
-              "q": { "type": "string" },
-              "a": { "type": "string" }
-            },
-            "required": ["q", "a"]
-          }
-        },
-        "comparison_table": { "type": "boolean" },
-        "comparison_table_md": { "type": "string" },
-        "list_steps_included": { "type": "boolean" },
-        "images_graphics_added": { "type": "boolean" },
-        "image_suggestions": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "filename": { "type": "string" },
-              "alt": { "type": "string" },
-              "where": { "type": "string" }
-            },
-            "required": ["filename", "alt"]
-          }
-        },
-        "schema_types": {
-          "type": "array",
-          "items": { "type": "string" }
-        }
-      }
-    },
-    "internal_linking": {
-      "type": "object",
-      "properties": {
-        "links_to": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "anchor": { "type": "string" },
-              "url": { "type": "string" }
-            },
-            "required": ["anchor", "url"]
-          }
-        },
-        "links_from_suggested": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "title": { "type": "string" },
-              "url": { "type": "string" }
-            },
-            "required": ["title", "url"]
-          }
-        },
-        "anchor_text_variations": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "local_entities": {
-          "type": "array",
-          "items": { "type": "string" }
-        }
-      }
-    },
-    "publishing_workflow": {
-      "type": "object",
-      "properties": {
-        "status": { "type": "string" },
-        "brief_doc_link": { "type": "string" },
-        "draft_doc_link": { "type": "string" },
-        "designer_formatter": { "type": "string" },
-        "publish_date": { "type": "string" },
-        "last_updated_date": { "type": "string" }
-      }
-    },
-    "performance_tracking": {
-      "type": "object",
-      "properties": {
-        "organic_impressions": { "type": "string" },
-        "organic_clicks": { "type": "string" },
-        "avg_position": { "type": "string" },
-        "ctr_percent": { "type": "string" },
-        "page_views": { "type": "string" },
-        "conversions": { "type": "string" },
-        "notes": { "type": "string" }
-      }
-    },
-    "cta": {
-      "type": "array",
-      "description": "One or more call-to-action blocks to render in the post and store in Airtable.",
-      "items": {
-        "type": "object",
-        "properties": {
-          "placement": {
             "type": "string",
-            "description": "Where to place this CTA in the article",
-            "enum": ["top", "middle", "bottom", "sidebar", "inline"]
+            "pattern": "^(ACC|APP|SHO|TRN|COM|REC|INJ|SAF|NUT|TRL|PER)_[A-Z0-9-]+$"
           },
-          "headline": { "type": "string" },
-          "body": { "type": "string", "description": "Short supporting copy; Markdown allowed" },
-          "button_label": { "type": "string" },
-          "button_url": { "type": "string" },
-          "secondary_button_label": { "type": "string" },
-          "secondary_button_url": { "type": "string" },
-          "anchor_text": { "type": "string", "description": "If linking inline within a paragraph" },
-          "internal_link_target": { "type": "string", "description": "Slug or URL of the internal target, if applicable" },
-          "utm": {
-            "type": "object",
-            "properties": {
-              "source": { "type": "string" },
-              "medium": { "type": "string" },
-              "campaign": { "type": "string" }
-            }
-          }
+          "uniqueItems": true,
+          "minItems": 3,
+          "maxItems": 6,
+          "examples": [["SAF_HEADLAMP","SAF_VISIBILITY","COM_INDIANAPOLIS","ACC_GARMIN"]]
         },
-        "required": ["placement", "headline", "button_label", "button_url"]
-      }
-    },
-    "blog_body": {
-      "type": "string",
-      "description": "The full blog draft in Markdown format (2,800–3,200 words). Include all H1/H2/H3 headings, body text, tables, lists, FAQ, CTA callouts, and localized content."
+        "new_tag_proposals": {
+          "type": "array",
+          "description": "Optional, human-readable proposals when no existing tag fits. Do NOT invent IDs here.",
+          "items": { "type": "string", "minLength": 2, "maxLength": 80 },
+          "maxItems": 10,
+          "examples": [["women’s self-defense", "Monon Trail safety tips"]]
+        }
+      },
+      "required": ["category_id", "tag_ids"]
     }
-  },
-  "required": ["basic_content_info", "seo_core", "blog_body"]
+  ]
 }
