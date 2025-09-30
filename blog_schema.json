@@ -309,7 +309,7 @@
   "type": "string",
   "description": "The full blog draft in Markdown (2,500–3,000 words pillar; 1,200–1,800 supporting). Use PRODUCT tokens like [Name](PRODUCT:handle) where applicable."
 }
-```
+  
 
 },
 "required": ["basic_content_info","seo_core","blog_body"]
