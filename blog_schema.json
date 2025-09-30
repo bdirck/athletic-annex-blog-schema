@@ -40,7 +40,7 @@
 "required": ["primary_keyword","meta_title","meta_description","search_intent"]
 },
 
-```
+  
 "product_strategy": {
   "type": "object",
   "description": "Controls product mapping and render strategy for Stable URLs + Liquid handles.",
