@@ -1,180 +1,316 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Athletic Annex Blog Schema",
+"$schema": "[http://json-schema.org/draft-07/schema#](http://json-schema.org/draft-07/schema#)",
+"title": "Athletic Annex Blog Schema",
+"type": "object",
+"properties": {
+"basic_content_info": {
+"type": "object",
+"properties": {
+"blog_title": { "type": "string" },
+"slug": { "type": "string" },
+"live_link": { "type": "string" },
+"author": { "type": "string" },
+"category": { "type": "string" }
+},
+"required": ["blog_title", "slug"]
+},
+"seo_core": {
+"type": "object",
+"properties": {
+"primary_keyword": { "type": "string" },
+"secondary_keywords": {
+"type": "array",
+"items": { "type": "string" }
+},
+"search_intent": {
+"type": "string",
+"enum": ["Informational","Navigational","Transactional","Commercial Investigation"],
+"description": "Choose ONE best-fit search intent."
+},
+"local_modifier": {
+"type": "boolean",
+"description": "True if the post targets a location (e.g., Indianapolis, Carmel, Indiana)."
+},
+"meta_title": { "type": "string" },
+"meta_description": { "type": "string" },
+"excerpt": { "type": "string" },
+"snippet_block": { "type": "string" },
+"h1": { "type": "string" }
+},
+"required": ["primary_keyword","meta_title","meta_description","search_intent"]
+},
+
+```
+"product_strategy": {
   "type": "object",
+  "description": "Controls product mapping and render strategy for Stable URLs + Liquid handles.",
   "properties": {
-    "basic_content_info": {
-      "type": "object",
-      "properties": {
-        "blog_title": { "type": "string" },
-        "slug": { "type": "string" },
-        "live_link": { "type": "string" },
-        "author": { "type": "string" },
-        "category": { "type": "string" }
-      },
-      "required": ["blog_title", "slug"]
+    "product_tokens_present": {
+      "type": "boolean",
+      "description": "True if PRODUCT:handle tokens are used in the Markdown body (e.g., [Nuun Sport](PRODUCT:nuun-sport-hydration))."
     },
-    "seo_core": {
+    "product_token_format": {
+      "type": "string",
+      "enum": ["[Name](PRODUCT:handle)"],
+      "description": "Required token format inside blog_body to enable automated replacement."
+    },
+    "replacement_patterns": {
       "type": "object",
+      "description": "HTML patterns used at publish time when replacing PRODUCT tokens.",
       "properties": {
-        "primary_keyword": { "type": "string" },
-        "secondary_keywords": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "search_intent": {
+        "link_with_price": {
           "type": "string",
-          "enum": [
-            "Informational",
-            "Navigational",
-            "Transactional",
-            "Commercial Investigation"
-          ],
-          "description": "Choose ONE best-fit search intent."
+          "description": "HTML pattern. Use {{stable_url}}, {{name}}, {{handle}} placeholders.",
+          "examples": [
+            "<a href=\"{{stable_url}}\">{{name}}</a> <span class=\"js-price\" data-handle=\"{{handle}}\">Loading…</span>"
+          ]
         },
-        "local_modifier": {
-          "type": "boolean",
-          "description": "True if the post targets a location (e.g., Indianapolis, Carmel, Indiana)."
-        },
-        "meta_title": { "type": "string" },
-        "meta_description": { "type": "string" },
-        "excerpt": { "type": "string" },
-        "snippet_block": { "type": "string" },
-        "h1": { "type": "string" }
-      },
-      "required": ["primary_keyword", "meta_title", "meta_description", "search_intent"]
-    },
-    "content_enhancers": {
-      "type": "object",
-      "properties": {
-        "toc_present": { "type": "boolean" },
-        "faq_section": { "type": "boolean" },
-        "faq_list": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "q": { "type": "string" },
-              "a": { "type": "string" }
-            },
-            "required": ["q", "a"]
-          }
-        },
-        "comparison_table": { "type": "boolean" },
-        "comparison_table_md": { "type": "string" },
-        "list_steps_included": { "type": "boolean" },
-        "images_graphics_added": { "type": "boolean" },
-        "image_suggestions": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "filename": { "type": "string" },
-              "alt": { "type": "string" },
-              "where": { "type": "string" }
-            },
-            "required": ["filename", "alt"]
-          }
-        },
-        "schema_types": {
-          "type": "array",
-          "items": { "type": "string" }
+        "link_only": {
+          "type": "string",
+          "description": "Anchor-only option.",
+          "examples": [
+            "<a href=\"{{stable_url}}\">{{name}}</a>"
+          ]
         }
       }
     },
-    "internal_linking": {
-      "type": "object",
-      "properties": {
-        "links_to": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "anchor": { "type": "string" },
-              "url": { "type": "string" }
-            },
-            "required": ["anchor", "url"]
-          }
-        },
-        "links_from_suggested": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "title": { "type": "string" },
-              "url": { "type": "string" }
-            },
-            "required": ["title", "url"]
-          }
-        },
-        "anchor_text_variations": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "local_entities": {
-          "type": "array",
-          "items": { "type": "string" }
-        }
-      }
-    },
-    "publishing_workflow": {
-      "type": "object",
-      "properties": {
-        "status": { "type": "string" },
-        "brief_doc_link": { "type": "string" },
-        "draft_doc_link": { "type": "string" },
-        "designer_formatter": { "type": "string" },
-        "publish_date": { "type": "string" },
-        "last_updated_date": { "type": "string" }
-      }
-    },
-    "performance_tracking": {
-      "type": "object",
-      "properties": {
-        "organic_impressions": { "type": "string" },
-        "organic_clicks": { "type": "string" },
-        "avg_position": { "type": "string" },
-        "ctr_percent": { "type": "string" },
-        "page_views": { "type": "string" },
-        "conversions": { "type": "string" },
-        "notes": { "type": "string" }
-      }
-    },
-    "cta": {
+    "products_used": {
       "type": "array",
-      "description": "One or more call-to-action blocks to render in the post and store in Airtable.",
+      "description": "All products intentionally referenced in the post.",
       "items": {
         "type": "object",
         "properties": {
+          "product_name": { "type": "string" },
+          "handle": { "type": "string", "description": "Shopify product handle (used for Liquid and /products/{handle}.js)." },
+          "stable_url": { "type": "string", "description": "Evergreen /go/ redirect URL for outbound links." },
+          "usage_context": { "type": "string", "description": "Why/where this product is mentioned (e.g., 'mid-race fuel', 'electrolytes in heat')." },
           "placement": {
             "type": "string",
-            "description": "Where to place this CTA in the article",
-            "enum": ["top", "middle", "bottom", "sidebar", "inline"]
+            "enum": ["inline","comparison_table","timeline","carousel","faq","cta","sidebar"]
           },
-          "headline": { "type": "string" },
-          "body": { "type": "string", "description": "Short supporting copy; Markdown allowed" },
-          "button_label": { "type": "string" },
-          "button_url": { "type": "string" },
-          "secondary_button_label": { "type": "string" },
-          "secondary_button_url": { "type": "string" },
-          "anchor_text": { "type": "string", "description": "If linking inline within a paragraph" },
-          "internal_link_target": { "type": "string", "description": "Slug or URL of the internal target, if applicable" },
-          "utm": {
-            "type": "object",
-            "properties": {
-              "source": { "type": "string" },
-              "medium": { "type": "string" },
-              "campaign": { "type": "string" }
+          "link_text": { "type": "string", "description": "Anchor text to display when replacing tokens." }
+        },
+        "required": ["handle"]
+      }
+    },
+    "dynamic_pricing_required": {
+      "type": "boolean",
+      "description": "If true, the price hydrator script must be injected once on the page."
+    },
+    "price_hydrator_snippet_included": {
+      "type": "boolean",
+      "description": "True if the post includes the JS hydrator for elements with .js-price[data-handle] or .js-price-small."
+    }
+  }
+},
+
+"content_enhancers": {
+  "type": "object",
+  "properties": {
+    "toc_present": { "type": "boolean" },
+    "faq_section": { "type": "boolean" },
+    "faq_list": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": { "q": { "type": "string" }, "a": { "type": "string" } },
+        "required": ["q","a"]
+      }
+    },
+    "comparison_table": { "type": "boolean" },
+    "comparison_table_md": { "type": "string" },
+    "comparison_table_structured": {
+      "type": "array",
+      "description": "Structured rows for programmatic HTML tables.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "handle": { "type": "string" },
+          "product_name": { "type": "string" },
+          "what_its_used_for": { "type": "string" },
+          "when_best_used": { "type": "string" },
+          "show_dynamic_price": { "type": "boolean", "description": "If true, render <span class='js-price' data-handle='...'>Loading…</span>." }
+        },
+        "required": ["handle","product_name"]
+      }
+    },
+    "list_steps_included": { "type": "boolean" },
+    "pull_quote": { "type": "string" },
+    "images_graphics_added": { "type": "boolean" },
+    "image_suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": { "filename": { "type": "string" }, "alt": { "type": "string" }, "where": { "type": "string" } },
+        "required": ["filename","alt"]
+      }
+    },
+    "schema_types": { "type": "array", "items": { "type": "string" } },
+    "enhancers_used": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["table_of_contents","comparison_table","step_list","pull_quote","faq","infographic","photo_suggestion","product_carousel","interactive_quiz"]
+      }
+    },
+    "carousels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string" },
+          "slides": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "headline": { "type": "string" },
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "handle": { "type": "string" },
+                      "product_name": { "type": "string" },
+                      "stable_url": { "type": "string" }
+                    },
+                    "required": ["handle"]
+                  }
+                }
+              },
+              "required": ["headline","items"]
             }
           }
         },
-        "required": ["placement", "headline", "button_label", "button_url"]
+        "required": ["title","slides"]
+      }
+    }
+  }
+},
+
+"internal_linking": {
+  "type": "object",
+  "properties": {
+    "links_to": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": { "anchor": { "type": "string" }, "url": { "type": "string" } },
+        "required": ["anchor","url"]
       }
     },
-    "blog_body": {
-      "type": "string",
-      "description": "The full blog draft in Markdown format (2,800–3,200 words). Include all H1/H2/H3 headings, body text, tables, lists, FAQ, CTA callouts, and localized content."
+    "service_links": {
+      "type": "array",
+      "description": "Conversion-intent internal links to services (e.g., gait analysis).",
+      "items": {
+        "type": "object",
+        "properties": { "anchor": { "type": "string" }, "url": { "type": "string" } },
+        "required": ["anchor","url"]
+      }
+    },
+    "blog_links": {
+      "type": "array",
+      "description": "Engagement-intent internal links to related blogs.",
+      "items": {
+        "type": "object",
+        "properties": { "anchor": { "type": "string" }, "url": { "type": "string" } },
+        "required": ["anchor","url"]
+      }
+    },
+    "links_from_suggested": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": { "title": { "type": "string" }, "url": { "type": "string" } },
+        "required": ["title","url"]
+      }
+    },
+    "anchor_text_variations": { "type": "array", "items": { "type": "string" } },
+    "local_entities": {
+      "type": "array",
+      "description": "Indiana-local entities referenced (e.g., Monon Trail, Carmel Runners Club).",
+      "items": { "type": "string" }
     }
-  },
-  "required": ["basic_content_info", "seo_core", "blog_body"]
+  }
+},
+
+"publishing_workflow": {
+  "type": "object",
+  "properties": {
+    "status": { "type": "string" },
+    "brief_doc_link": { "type": "string" },
+    "draft_doc_link": { "type": "string" },
+    "designer_formatter": { "type": "string" },
+    "publish_date": { "type": "string" },
+    "last_updated_date": { "type": "string" },
+    "preflight_checklist": {
+      "type": "object",
+      "description": "Quick QA before publish.",
+      "properties": {
+        "toc_generated": { "type": "boolean" },
+        "anchors_valid": { "type": "boolean" },
+        "stable_urls_present": { "type": "boolean" },
+        "liquid_handles_present": { "type": "boolean" },
+        "price_hydrator_included_once": { "type": "boolean" },
+        "images_alt_text_present": { "type": "boolean" },
+        "faq_schema_valid": { "type": "boolean" }
+      }
+    }
+  }
+},
+
+"performance_tracking": {
+  "type": "object",
+  "properties": {
+    "organic_impressions": { "type": "string" },
+    "organic_clicks": { "type": "string" },
+    "avg_position": { "type": "string" },
+    "ctr_percent": { "type": "string" },
+    "page_views": { "type": "string" },
+    "conversions": { "type": "string" },
+    "notes": { "type": "string" }
+  }
+},
+
+"cta": {
+  "type": "array",
+  "description": "One or more call-to-action blocks to render in the post and store in Airtable.",
+  "items": {
+    "type": "object",
+    "properties": {
+      "placement": {
+        "type": "string",
+        "enum": ["top","middle","bottom","sidebar","inline"],
+        "description": "Where to place this CTA in the article"
+      },
+      "headline": { "type": "string" },
+      "body": { "type": "string", "description": "Short supporting copy; Markdown allowed" },
+      "button_label": { "type": "string" },
+      "button_url": { "type": "string" },
+      "secondary_button_label": { "type": "string" },
+      "secondary_button_url": { "type": "string" },
+      "anchor_text": { "type": "string", "description": "If linking inline within a paragraph" },
+      "internal_link_target": { "type": "string", "description": "Slug or URL of the internal target, if applicable" },
+      "utm": {
+        "type": "object",
+        "properties": { "source": { "type": "string" }, "medium": { "type": "string" }, "campaign": { "type": "string" } }
+      }
+    },
+    "required": ["placement","headline","button_label","button_url"]
+  }
+},
+
+"social_caption": {
+  "type": "string",
+  "description": "≤150 chars social hook for distribution."
+},
+
+"blog_body": {
+  "type": "string",
+  "description": "The full blog draft in Markdown (2,500–3,000 words pillar; 1,200–1,800 supporting). Use PRODUCT tokens like [Name](PRODUCT:handle) where applicable."
+}
+```
+
+},
+"required": ["basic_content_info","seo_core","blog_body"]
 }
